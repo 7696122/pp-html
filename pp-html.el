@@ -33,6 +33,7 @@
 (require 's)
 (require 'dash)
 (require 'web-mode)
+(require 'cl-lib)
 
 (defvar pp-html-filter-list
   '((:abs pp-html-filter-abs)
@@ -148,10 +149,10 @@
 	  (progn
 	    (setq alist
 		  (append alist (list (list (nth i plist) (nth (1+ i) plist)))))
-	    (incf i 2))
+	    (cl-incf i 2))
 	(progn
 	  (setq alist (append alist (list (list (nth i plist) nil))))
-	  (incf i))))
+	  (cl-incf i))))
     alist))
 
 (defun pp-html--plist-to-alist (plist)
@@ -171,7 +172,7 @@
 	  (if (not (pp-html-property-p (nth j plist)))
 	      (progn
 		(setq val (append val (list (nth j plist))))
-		(incf j))
+		(cl-incf j))
 	    (throw 'break nil))))
       (setq alist (append alist (list (cons key val))))
       (setq val nil)
@@ -507,7 +508,7 @@ to the end of STRING.
       (while (nth i lst)
 	(let ((prop (intern (concat ":" (nth i lst)))))
 	  (setq res (eval `(plist-get ',res ,prop)))
-	  (incf i))))
+	  (cl-incf i))))
     res))
 
 (defun pp-html--array-p (el)
@@ -649,7 +650,7 @@ to the end of STRING.
 	(when (pp-html-eval (nth i cases))
 	  (setq res (pp-html-eval (nth (1+ i) cases)))
 	  (throw 'break res))
-	(incf i 2)))))
+	(cl-incf i 2)))))
 
 ;; Iteration
 (defun pp-html--process-logic-for (sexp)
@@ -774,10 +775,10 @@ to the end of STRING.
 	(cond
 	 ((string= "@" (pp-html--symbol-initial item))
 	  (setq plist (append plist (list :id (pp-html--symbol-rest item))))
-	  (incf i))
+	  (cl-incf i))
 	 ((string= "." (pp-html--symbol-initial item))
 	  (setq plist (append plist (list :class (pp-html--symbol-rest item))))
-	  (incf i))
+	  (cl-incf i))
 	 ((string= ":" (pp-html--symbol-initial item))
 	  (let ((attr item)
 		(next (pp-html-eval (nth (1+ i) sexp))))
@@ -785,10 +786,10 @@ to the end of STRING.
 		(progn
 		  (setq plist
 			(append plist (list attr next)))
-		  (incf i 2))
+		  (cl-incf i 2))
 	      (progn
 		(setq plist (append plist (list attr nil)))
-		(incf i))))))))
+		(cl-incf i))))))))
     (list i plist)))
 
 (defun pp-html--whole-attr-plist (sexp)
@@ -800,7 +801,7 @@ to the end of STRING.
     (while (nth i plist)
       (if (eq :class (nth i plist))
 	  (setq pos (append pos (list i))))
-      (incf i 2))
+      (cl-incf i 2))
     (when (> (length pos) 1)
       (dolist (p pos)
 	(let ((val (nth (1+ p) plist)))
