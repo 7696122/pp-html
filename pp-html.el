@@ -4,7 +4,7 @@
 
 ;; Author: Kinneyzhang <kinneyzhang666@gmail.com>
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "26.3") (s "1.12.0) (dash "2.16.0) (web-mode "16.0.24"))
+;; Package-Requires: ((emacs "26.3") (s "1.12.0") (dash "2.16.0") (web-mode "16.0.24"))
 ;; URL: https://github.com/Kinneyzhang/pp-html
 ;; Keywords: html, sexp
 
